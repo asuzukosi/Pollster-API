@@ -1,8 +1,9 @@
 from django.urls import path, include
-from .views import home, RegisterPollsterAPIView, pollsterFollowers, TestView, pollsterFollowing, followPollster, PollsterAPIView, unfollowPollster, PollsterDetailAPIView, ChoiceVotesAPIView, pollChartAPIView, LoginPollsterAPIView, ChoiceViewSet, PollsListCreateAPIView, PollsDetailAPIView, PollsTagsAPIView, RemoveTagFromPollAPIView
+from .views import home, PrivateGraphQLView, RegisterPollsterAPIView, pollsterFollowers, TestView, pollsterFollowing, followPollster, PollsterAPIView, unfollowPollster, PollsterDetailAPIView, ChoiceVotesAPIView, pollChartAPIView, LoginPollsterAPIView, ChoiceViewSet, PollsListCreateAPIView, PollsDetailAPIView, PollsTagsAPIView, RemoveTagFromPollAPIView
 from rest_framework.routers import DefaultRouter
 from rest_framework.documentation import include_docs_urls
 
+from .schema import schema
 router = DefaultRouter()
 router.register('choices', ChoiceViewSet, basename='Choices')
 urlpatterns = [
@@ -22,5 +23,7 @@ urlpatterns = [
     path('pollsters/<int:pk>/unfollow/', unfollowPollster, name='Unfollow Pollster'),
     path('pollsters/<int:pk>/followers/', pollsterFollowers, name='Pollster Followers'),
     path('pollsters/<int:pk>/following/', pollsterFollowing, name='Pollster Following'),
-    path('documentation/', include_docs_urls(title='Pollster App API'), name="Documentation")
+    path('documentation/', include_docs_urls(title='Pollster App API'), name="Documentation"),
+    path('graphql/', PrivateGraphQLView.as_view(graphiql=True, schema=schema))
+
 ]

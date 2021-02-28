@@ -19,7 +19,7 @@ class Pollster(AbstractUser):
 
 class Poll(models.Model):
     question = models.CharField(max_length=200)
-    pollster = models.ForeignKey(Pollster, on_delete=models.CASCADE)
+    pollster = models.ForeignKey(Pollster, related_name='polls', on_delete=models.CASCADE)
     tags = models.ManyToManyField(Topic, related_name='tagged_polls', null=True, blank=True)
     time_created = models.DateTimeField()
 
